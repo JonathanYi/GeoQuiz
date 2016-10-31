@@ -15,7 +15,7 @@ public class QuizActivity extends AppCompatActivity {
 
     private static final String TAG = "QuizActivity";
     private static final String KEY_INDEX = "index";
-    private static final String KEY_MISCHEATER = "isCheater";
+    private static final String KEY_ISCHEATER = "isCheater";
     private static final int REQUEST_CODE_CHEAT = 0;
 
     private Button mTruButton;
@@ -129,13 +129,14 @@ public class QuizActivity extends AppCompatActivity {
 
         if (savedInstanceState != null){
             mCurrentIndex = savedInstanceState.getInt(KEY_INDEX);
-            mIsCheater = savedInstanceState.getBoolean(KEY_MISCHEATER);
+            mIsCheater = savedInstanceState.getBoolean(KEY_ISCHEATER);
         }
 
         updateQuestion();
 
     }
 
+    //called when cheatActivity sends back result
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data){
         if (resultCode!= Activity.RESULT_OK){
@@ -154,7 +155,7 @@ public class QuizActivity extends AppCompatActivity {
         super.onSaveInstanceState(savedInstanceState);
         Log.i(TAG, "onSavedInstanceState");
         savedInstanceState.putInt(KEY_INDEX, mCurrentIndex);
-        savedInstanceState.putBoolean(KEY_MISCHEATER, mIsCheater);
+        savedInstanceState.putBoolean(KEY_ISCHEATER, mIsCheater);
     }
 
     @Override

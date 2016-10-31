@@ -12,10 +12,13 @@ public class CheatActivity extends AppCompatActivity {
 
     private static final String EXTRA_ANSWER_IS_TRUE = "com.bignerdranch.android.geoquiz.answer_is_true";
     private static final String EXTRA_ANSWER_SHOWN = "com.bignerdranch.android.geoquiz.answer_shown";
+    private static final String KEY_ISCHEATER = "isCheater";
+
     private boolean mAnswerIsTrue;
 
     private TextView mAnswerTextView;
     private Button mShowAnswer;
+    private boolean mIsCheater;
 
     public static Intent newIntent(Context packageContext, boolean answerIsTrue){
         Intent i = new Intent(packageContext, CheatActivity.class);
@@ -33,6 +36,14 @@ public class CheatActivity extends AppCompatActivity {
         setResult(RESULT_OK, data);
     }
 
+    private void displayAnswer() {
+        if (mAnswerIsTrue){
+            mAnswerTextView.setText(R.string.true_button);
+        } else{
+            mAnswerTextView.setText(R.string.false_button);
+        }
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,14 +57,25 @@ public class CheatActivity extends AppCompatActivity {
         mShowAnswer.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v){
-                if (mAnswerIsTrue){
-                    mAnswerTextView.setText(R.string.true_button);
-                } else{
-                    mAnswerTextView.setText(R.string.false_button);
-                }
-                setAnswerShownResult(true);
-
+                mIsCheater = true;
+                setAnswerShownResult(mIsCheater);
+                displayAnswer();
             }
         });
+
+        if(savedInstanceState != null){
+            mIsCheater = savedInstanceState.getBoolean(KEY_ISCHEATER);
+            if(mIsCheater = true){
+                setAnswerShownResult(mIsCheater);
+                displayAnswer();
+            }
+
+        }
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle savedInstaneState){
+        super.onSaveInstanceState(savedInstaneState);
+        savedInstaneState.putBoolean(KEY_ISCHEATER, mIsCheater);
     }
 }
