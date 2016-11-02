@@ -13,18 +13,25 @@ import android.widget.Toast;
 
 public class QuizActivity extends AppCompatActivity {
 
+    //For debug
     private static final String TAG = "QuizActivity";
+    //For on save instance
     private static final String KEY_INDEX = "index";
     private static final String KEY_ISCHEATER = "isCheater";
+    //For Cheat Activity
     private static final int REQUEST_CODE_CHEAT = 0;
 
+    //Text output will show questions
+    private TextView mQuestionTextView;
+
+    //Buttons
     private Button mTruButton;
     private Button mFalseButton;
     private ImageButton mPreviousButton;
     private ImageButton mNextButton;
     private Button mCheatButton;
-    private TextView mQuestionTextView;
 
+    //Array of questions that will be asked
     private Question[] mQuestionBank = new Question[]{
             new Question(R.string.question_oceans, true),
             new Question(R.string.question_mideast, false),
@@ -32,6 +39,8 @@ public class QuizActivity extends AppCompatActivity {
             new Question(R.string.question_americas, true),
             new Question(R.string.question_asia, true)
     };
+    //Array for cheat status
+    private boolean[] mCheatStatus = new boolean[mQuestionBank.length];
 
     private int mCurrentIndex = 0;
     private boolean mIsCheater;
@@ -47,7 +56,9 @@ public class QuizActivity extends AppCompatActivity {
 
         int messageResId = 0;
 
-        if (mIsCheater) {
+        //Changing from mIsCheater to
+        // mCheatStatus[mCurrentIndex]
+        if (mCheatStatus[mCurrentIndex]) {
             messageResId = R.string.judgment_toast;
         } else {
 
@@ -110,7 +121,6 @@ public class QuizActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 mCurrentIndex = (mCurrentIndex + 1) % mQuestionBank.length;
-                mIsCheater = false;
                 updateQuestion();
             }
         });
@@ -147,6 +157,7 @@ public class QuizActivity extends AppCompatActivity {
                 return;
             }
             mIsCheater = CheatActivity.wasAnswerShown(data);
+            mCheatStatus[mCurrentIndex] = mIsCheater;
         }
     }
 
