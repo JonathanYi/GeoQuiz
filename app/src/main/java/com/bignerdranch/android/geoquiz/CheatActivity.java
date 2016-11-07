@@ -21,6 +21,8 @@ public class CheatActivity extends AppCompatActivity {
     private boolean mAnswerIsTrue;
 
     private TextView mAnswerTextView;
+    //TextView to display Build version
+    private TextView mBuildVersionTextView;
     private Button mShowAnswer;
     private boolean mIsCheater;
 
@@ -47,11 +49,11 @@ public class CheatActivity extends AppCompatActivity {
             mAnswerTextView.setText(R.string.false_button);
         }
 
-        //adding code from api 21, 
+        //adding code from api 21,
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             int cx = mShowAnswer.getWidth() / 2;
             int cy = mShowAnswer.getHeight() / 2;
-            float radius = mShowAnswer.getWidth();
+            float radius = mShowAnswer.getWidth() / 2;
             Animator anim = ViewAnimationUtils.createCircularReveal(mShowAnswer, cx, cy, radius, 0);
             anim.addListener(new AnimatorListenerAdapter() {
                 @Override
@@ -76,6 +78,10 @@ public class CheatActivity extends AppCompatActivity {
         mAnswerIsTrue = getIntent().getBooleanExtra(EXTRA_ANSWER_IS_TRUE, false);
 
         mAnswerTextView = (TextView) findViewById(R.id.answer_text_view);
+        //getting the text view
+        mBuildVersionTextView = (TextView) findViewById(R.id.build_version);
+        //setting the text for the text view
+        mBuildVersionTextView.setText("API Level "+ Build.VERSION.SDK_INT);
 
         mShowAnswer = (Button) findViewById(R.id.show_answer_button);
         mShowAnswer.setOnClickListener(new View.OnClickListener(){
